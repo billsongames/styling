@@ -24,19 +24,30 @@ const GrassCard = styled.div`
 
 const StyledContainer = () => {
     const [pokemon, setPokemon] = useState([])
+    const [selected, setSelected] = useState()
+    const [image, setImage] = useState()
+
     useEffect(() => {
         axios.get(`https://pokeapi.co/api/v2/type/grass`).then(res => {
             setPokemon(res.data.pokemon)
         })
     }, [])
+
+    useEffect(() => {
+      axios.get(selected).then(res => {
+      setImage(res.data.sprites.front_default)
+      })  
+    }, [selected])
+
     return (
       <div>
         <h1>Grass Types!</h1>
         <GrassTypes>
           {pokemon.map((thisPokemon) => {
               return (
-                  <GrassCard>
-                      {thisPokemon.pokemon.name}
+                  <GrassCard onMouseEnter={() => setSelected(thisPokemon.pokemon.url)} onMouseLeave={() => setSelected()}>
+                    {thisPokemon.pokemon.name}
+                    {(selected === thisPokemon.pokemon.url) && <img src={image} className="pokemonImage"/>}
                   </GrassCard>
               )
           })}

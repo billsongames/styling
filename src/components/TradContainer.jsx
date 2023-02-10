@@ -8,22 +8,16 @@ const Container = () => {
     const [image, setImage] = useState()
 
     useEffect(() => {
-        axios.get(`https://pokeapi.co/api/v2/type/fire`).then(res => {
-            setPokemon(res.data.pokemon)
+      axios.get(`https://pokeapi.co/api/v2/type/fire`).then(res => {
+      setPokemon(res.data.pokemon)
         })
     }, [])
 
     useEffect(() => {
       axios.get(selected).then(res => {
       setImage(res.data.sprites.front_default)
-      console.log("selected = ", selected)
-      console.log("image = ", image)
       })  
     }, [selected])
-
-function report() {
-  console.log("entered")
-}
 
     return (
       <div>
@@ -31,7 +25,7 @@ function report() {
         <div className="fireTypes">
           {pokemon.map((thisPokemon) => {
             return (
-              <div className="fireCard" onMouseEnter={() => setSelected(thisPokemon.pokemon.url)} onMouseLeave={() => setSelected("")}>
+              <div className="fireCard" onMouseEnter={() => setSelected(thisPokemon.pokemon.url)} onMouseLeave={() => setSelected()}>
                 {thisPokemon.pokemon.name}
                 {(selected === thisPokemon.pokemon.url) && <img src={image} className="pokemonImage"/>}
               </div>
